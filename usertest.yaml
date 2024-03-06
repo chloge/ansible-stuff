@@ -7,6 +7,7 @@
     - name: Add user
       ansible.builtin.user:
         name: "{{ user_name }}"
+        uid: 10101
         shell: /usr/bin/false
         comment: John Ansible
         group: sudo
