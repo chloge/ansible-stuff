@@ -1,3 +1,4 @@
+---
 - name: Create a user and add them to wheel
   ansible.builtin.user:
     name: "{{ user_name }}"
