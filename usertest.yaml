@@ -1,6 +1,5 @@
 ---
 - name: Create a user and add them to wheel
-  hosts: "{{ host }}"
   tasks:
     - name: Add user
       ansible.builtin.user:
