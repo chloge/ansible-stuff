@@ -1,6 +1,6 @@
 ---
 - name: Create a user and add them to wheel
-  hosts: "{{ lab-ssh }}"
+  hosts: "{{ labssh }}"
   tasks:
     - name: Add user
       ansible.builtin.user:
