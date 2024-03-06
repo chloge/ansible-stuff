@@ -6,4 +6,4 @@
       ansible.builtin.user:
         name: "{{ user_name }}"
         comment: John Ansible
-        group: sudoers
+        group: sudo
