@@ -2,6 +2,7 @@
 - name: Create a user
   hosts: labssh
   become: true
+  become_method: sudo
   tasks:
     - name: Add user
       ansible.builtin.user:
