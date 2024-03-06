@@ -1,10 +1,10 @@
 ---
 - name: Create a user
   hosts: labssh
+  become: true
   tasks:
     - name: Add user
       ansible.builtin.user:
         name: "{{ user_name }}"
         comment: John Ansible
         group: sudo
-      become: true
