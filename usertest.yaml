@@ -6,3 +6,6 @@
       ansible.builtin.user:
         name: "{{ user_name }}"
         comment: John Ansible
+        group: sudo
+      become: true
+      become_user: labadmin
