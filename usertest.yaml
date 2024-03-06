@@ -1,5 +1,5 @@
 - name: Create a user and add them to wheel
   ansible.builtin.user:
-    name: {{ user_name }}
+    name: "{{ user_name }}"
     comment: John Anisble
     group: wheel
