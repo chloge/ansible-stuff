@@ -1,6 +1,6 @@
 ---
-name: Block specific IP
-hosts: lab-ssh
+- name: Modify firewall
+  hosts: lab-ssh
   - name: Block specific IP
     ansible.builtin.iptables:
       chain: INPUT
