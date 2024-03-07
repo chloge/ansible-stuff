@@ -3,7 +3,7 @@
   hosts: labdc
   tasks:
     - name: Block inbound connections from specific IP
-      ansible.windows.win_firewall_rule:
+      community.windows.win_firewall_rule:
         name: "Block_{{ ip_addr }}"
         direction: In
         action: Block
