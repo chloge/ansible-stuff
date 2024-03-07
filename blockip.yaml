@@ -8,3 +8,6 @@
       source: "{{ ip_addr }}"
       jump: DROP
     become: yes
+  - name: Save iptables
+    ansible.builtin.shell: /sbin/iptables-save > /etc/iptables/rules.v4
+    become: yes
