@@ -1,6 +1,6 @@
 ---
 - name: Modify firewall
-  hosts: lab-ssh
+  hosts: labssh
   tasks:
   - name: Block specific IP
     ansible.builtin.iptables:
