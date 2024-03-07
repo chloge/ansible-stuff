@@ -1,6 +1,6 @@
 - name: Block specific IP
   ansible.builtin.iptables:
     chain: INPUT
-    source: 8.8.8.8
-    jump: ALLOW
+    source: "{{ ip_addr }}"
+    jump: DROP
   become: yes
