@@ -1,6 +1,6 @@
 ---
 - name: Block inbound connections from specific IP on Windows
-  hosts: labdc
+  hosts: "{{ host }}"
   tasks:
     - name: Block inbound connections from specific IP
       community.windows.win_firewall_rule:
