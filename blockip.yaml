@@ -1,6 +1,9 @@
-- name: Block specific IP
-  ansible.builtin.iptables:
-    chain: INPUT
-    source: "{{ ip_addr }}"
-    jump: DROP
-  become: yes
+---
+name: Block specific IP
+hosts: lab-ssh
+  - name: Block specific IP
+    ansible.builtin.iptables:
+      chain: INPUT
+      source: "{{ ip_addr }}"
+      jump: DROP
+    become: yes
