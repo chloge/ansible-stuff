@@ -1,3 +1,4 @@
+---
 - name: Block IP on Linux (persistent)
   hosts: "{{ host }}"
   tasks:
