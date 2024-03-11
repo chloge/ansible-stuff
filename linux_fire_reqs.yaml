@@ -1,4 +1,6 @@
-
+- name: Block IP on Linux (persistent)
+  hosts: "{{ host }}"
+  tasks:
   - name: Install iptables-persistent
     ansible.builtin.package:
       name: iptables-persistent
