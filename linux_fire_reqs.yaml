@@ -1,1 +1,6 @@
 
+  - name: Install iptables-persistent
+    ansible.builtin.package:
+      name: iptables-persistent
+      state: present
+    become: yes
