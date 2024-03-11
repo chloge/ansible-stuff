@@ -1,6 +1,8 @@
 ---
 - name: Block inbound connections from specific IP on Windows
   hosts: "{{ host }}"
+  vars: 
+    ansible_remote_tmp: ~/.ansible/tmp
   tasks:
     - name: Block inbound connections from specific IP
       community.windows.win_firewall_rule:
