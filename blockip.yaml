@@ -7,12 +7,13 @@
         source: "{{ ip_addr }}"
         jump: DROP
       become: yes
-    - name: Save iptables rules
-      ansible.builtin.shell:
-        cmd: "iptables-save > /etc/iptables/rules.v4"
-      become: yes
     - name: Install iptables-persistent
       ansible.builtin.package:
         name: iptables-persistent
         state: present
       become: yes
+    - name: Save iptables rules
+      ansible.builtin.shell:
+        cmd: "iptables-save > /etc/iptables/rules.v4"
+      become: yes
+
