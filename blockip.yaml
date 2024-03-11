@@ -1,4 +1,4 @@
-- name: Modify firewall, save iptables rules, and install iptables-persistent
+- name: Block IP on Linux (persistent)
   hosts: "{{ host }}"
   tasks:
     - name: Block specific IP
@@ -6,11 +6,6 @@
         chain: INPUT
         source: "{{ ip_addr }}"
         jump: DROP
-      become: yes
-    - name: Install iptables-persistent
-      ansible.builtin.package:
-        name: iptables-persistent
-        state: present
       become: yes
     - name: Save iptables rules
       ansible.builtin.shell:
