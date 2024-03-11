@@ -1,10 +1,15 @@
 ---
-- name: Modify firewall
+- name: Modify firewall and save iptables rules
   hosts: "{{ host }}"
   tasks:
-  - name: Block specific IP
-    ansible.builtin.iptables:
-      chain: INPUT
-      source: "{{ ip_addr }}"
-      jump: DROP
-    become: yes
+    - name: Block specific IP
+      ansible.builtin.iptables:
+        chain: INPUT
+        source: "{{ ip_addr }}"
+        jump: DROP
+      become: yes
+    - name: Save iptables rules
+      ansible.builtin.shell:
+        cmd: "iptables-save > /etc/iptables/rules.v4"
+      become: yes
+
