@@ -1,0 +1,25 @@
+---
+- name: Quarantine
+  hosts: "{{ host }}"
+  become: yes
+  tasks:
+    - name: Wipe all existing outbound rules
+      ansible.posix.iptables:
+        chain: OUTPUT
+        state: absent
+
+    - name: Deny outbound connections to the LAN group
+      ansible.posix.iptables:
+        chain: OUTPUT
+        destination: "{{ lan_group }}"
+        jump: DROP
+
+    - name: Allow connections to any other hosts
+      ansible.posix.iptables:
+        chain: OUTPUTa
+        jump: ACCEPT
+
+    - name: Restart iptables service
+      ansible.builtin.systemd:
+        name: iptables
+        state: restarted
