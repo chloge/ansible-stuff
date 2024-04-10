@@ -7,7 +7,15 @@
       ansible.builtin.iptables:
         chain: OUTPUT
         state: absent
-
+        
+    - name: Allow outbound connections to the Ansible server on port 22
+      ansible.builtin.iptables:
+        chain: OUTPUT
+        destination: "{{ ansible_server }}"
+        protocol: tcp
+        destination_port: 22
+        jump: ACCEPT
+        
     - name: Deny outbound connections to the LAN group
       ansible.builtin.iptables:
         chain: OUTPUT
