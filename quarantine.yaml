@@ -4,18 +4,18 @@
   become: yes
   tasks:
     - name: Wipe all existing outbound rules
-      ansible.posix.iptables:
+      ansible.builtin.iptables:
         chain: OUTPUT
         state: absent
 
     - name: Deny outbound connections to the LAN group
-      ansible.posix.iptables:
+      ansible.builtin.iptables:
         chain: OUTPUT
         destination: "{{ lan_group }}"
         jump: DROP
 
     - name: Allow connections to any other hosts
-      ansible.posix.iptables:
+      ansible.builtin.iptables:
         chain: OUTPUT
         jump: ACCEPT
 
