@@ -2,7 +2,7 @@
 - name: Pre-baking for linux firewall config with ansible
   hosts: "{{ host }}"
   tasks:
-  - name: Install iptables-persistent
+  - name: Install firewalld
     ansible.builtin.package:
       name: firewalld
       state: present
