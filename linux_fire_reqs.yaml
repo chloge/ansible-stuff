@@ -18,11 +18,11 @@
     
   - name: Stop and disable iptables
     ansible.builtin.systemd:
-    ignore_errors: true
       name: iptables
       state: stopped
       enabled: no
     become: yes
+    ignore_errors: true
 
   - name: Get active public network interface
     ansible.builtin.shell:
