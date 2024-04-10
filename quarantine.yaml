@@ -16,7 +16,7 @@
 
     - name: Allow connections to any other hosts
       ansible.posix.iptables:
-        chain: OUTPUTa
+        chain: OUTPUT
         jump: ACCEPT
 
     - name: Restart iptables service
