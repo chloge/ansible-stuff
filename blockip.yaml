@@ -12,4 +12,8 @@
       ansible.builtin.shell:
         cmd: "iptables-save > /etc/iptables/rules.v4"
       become: yes
+    - name: Restart iptables service
+      ansible.builtin.systemd:
+        name: iptables
+        state: restarted
 
