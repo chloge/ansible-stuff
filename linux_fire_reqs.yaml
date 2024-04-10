@@ -4,21 +4,21 @@
   tasks:
   
   - name: Install firewalld
-      ansible.builtin.package:
-        name: firewalld
-        state: present
-      become: yes
+    ansible.builtin.package:
+      name: firewalld
+      state: present
+    become: yes
 
   - name: Start and enable firewalld
-      ansible.builtin.systemd:
-        name: firewalld
-        state: started
-        enabled: yes
-      become: yes
+    ansible.builtin.systemd:
+      name: firewalld
+      state: started
+      enabled: yes
+    become: yes
     
   - name: Stop and disable iptables
-      ansible.builtin.systemd:
-        name: iptables
-        state: stopped
-        enabled: no
-      become: yes
+    ansible.builtin.systemd:
+      name: iptables
+      state: stopped
+      enabled: no
+    become: yes
