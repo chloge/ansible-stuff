@@ -43,9 +43,9 @@
     register: active_interface
     become: yes
 
-  - name: Add active interface to public zone in firewalld
+  - name: Add active interface to external zone in firewalld
     ansible.posix.firewalld:
-      zone: public
+      zone: external
       interface: "{{ active_interface.stdout }}"
       state: enabled
       permanent: yes
