@@ -8,5 +8,4 @@
         zone: external
         permanent: yes
         state: enabled
-        immediate: yes
       become: yes
