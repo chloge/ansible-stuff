@@ -23,17 +23,17 @@
       enabled: no
     become: yes
 
-    - name: Get active public network interface
-      ansible.builtin.shell:
-        cmd: "ip route get 1 | awk '{print $5;exit}'"
-      register: active_interface
-      become: yes
+  - name: Get active public network interface
+    ansible.builtin.shell:
+      cmd: "ip route get 1 | awk '{print $5;exit}'"
+    register: active_interface
+    become: yes
 
-    - name: Add active interface to public zone in firewalld
-      ansible.posix.firewalld:
-        zone: public
-        interface: "{{ active_interface.stdout }}"
-        state: enabled
-        permanent: yes
-        immediate: yes
-      become: yes
+  - name: Add active interface to public zone in firewalld
+    ansible.posix.firewalld:
+      zone: public
+      interface: "{{ active_interface.stdout }}"
+      state: enabled
+      permanent: yes
+      immediate: yes
+    become: yes
