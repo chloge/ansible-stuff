@@ -4,6 +4,6 @@
   tasks:
   - name: Install iptables-persistent
     ansible.builtin.package:
-      name: iptables-persistent
+      name: firewalld
       state: present
     become: yes
