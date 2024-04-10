@@ -1,1 +1,11 @@
-
+---
+- name: Block IP on Linux (persistent)
+  hosts: "{{ host }}"
+  tasks:
+    - name: Block specific IP
+      ansible.posix.firewalld:
+        source: "{{ ip_addr }}"
+        permanent: yes
+        state: enabled
+        immediate: yes
+      become: yes
