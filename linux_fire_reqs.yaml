@@ -22,7 +22,18 @@
       state: stopped
       enabled: no
     become: yes
-    ignore_errors: true
+    ignore_errors: yes
+
+  - name: Stop UFW
+    command: ufw disable
+    ignore_errors: yes
+
+  - name: Disable UFW on startup
+    lineinfile:
+      path: /etc/ufw/ufw.conf
+      regexp: '^ENABLED='
+      line: 'ENABLED=no'
+    ignore_errors: yes
 
   - name: Get active public network interface
     ansible.builtin.shell:
