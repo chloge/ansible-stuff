@@ -1,7 +1,11 @@
-- name: Allow service through external zone
-      firewalld:
+---
+- name: Block IP on Linux (persistent)
+  hosts: "{{ host }}"
+  tasks:
+      - name: Allow service through external zone
+      ansible.posix.firewalld:
         service: "{{ service }}"
         permanent: true
         state: enabled
         zone: external
-      
+      become: yes
