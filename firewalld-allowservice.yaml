@@ -1,0 +1,7 @@
+- name: Allow service through external zone
+      firewalld:
+        service: "{{ service }}"
+        permanent: true
+        state: enabled
+        zone: external
+      
