@@ -1,5 +1,5 @@
 ---
-- name: Block IP on Linux (persistent)
+- name: Allow service (persistent)
   hosts: "{{ host }}"
   tasks:
     - name: Allow service through external zone
