@@ -20,7 +20,7 @@
       become: yes
   
     - name: Reload firewalld
-      ansible.posix.firewalld:
+      ansible.builtin.service:
         name: firewalld
         state: reloaded
       become: yes
