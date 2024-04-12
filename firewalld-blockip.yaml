@@ -1,13 +1,13 @@
 ---
-- name: Block IP on Linux (persistent)
+- name: Modify IP status on Linux (persistent)
   hosts: "{{ host }}"
   tasks:
-    - name: Block specific IP
+    - name: Block/allow specific IP
       ansible.posix.firewalld:
         source: "{{ ip_addr }}"
         permanent: yes
         zone: external
-        state: disabled
+        state: "{{ enabled_or_disabled }}"
       become: yes
       
     - name: Reload firewalld
