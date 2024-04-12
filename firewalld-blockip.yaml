@@ -7,5 +7,5 @@
         source: "{{ ip_addr }}"
         permenant: yes
         zone: external
-        state: enabled
+        state: disabled
       become: yes
