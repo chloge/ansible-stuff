@@ -1,8 +1,7 @@
-- name: Reload firewalld
-  ansible.posix.firewalld:
-    state: reloaded
-  become: yes
-
+---
+- name: Deny by default
+  hosts: "{{ host }}"
+  tasks:
 
   - name: Allow SSH in the external zone
     ansible.posix.firewalld:
@@ -20,3 +19,8 @@
       target: DROP
       permanent: true
     become: yes
+
+  - name: Reload firewalld
+  ansible.posix.firewalld:
+    state: reloaded
+  become: yes
