@@ -21,5 +21,6 @@
   
     - name: Reload firewalld
       ansible.posix.firewalld:
+        name: firewalld
         state: reloaded
       become: yes
