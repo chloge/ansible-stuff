@@ -59,6 +59,7 @@
       state: enabled
       immediate: yes
       permanent: true
+    become: yes
 
   - name: Set default policy for external zone to drop
     ansible.posix.firewalld:
@@ -67,4 +68,5 @@
       set_default: yes
       immediate: yes
       permanent: true
+    become: yes
 
