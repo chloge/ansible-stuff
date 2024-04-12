@@ -14,11 +14,10 @@
 
     - name: Block all outbound traffic to LAN group in the external zone
       ansible.posix.firewalld:
-        source: "{{ item }}"
+        source: "{{ LAN_group }}"
         zone: external
         state: enabled
         permanent: yes
-      loop: "{{ LAN_group }}"
       
     - name: Reload firewalld
       ansible.builtin.service:
