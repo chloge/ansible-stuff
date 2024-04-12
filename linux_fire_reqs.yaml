@@ -65,7 +65,7 @@
     ansible.posix.firewalld:
       zone: external
       state: enabled
-      set_default: yes
+      default: yes
       immediate: yes
       permanent: true
     become: yes
