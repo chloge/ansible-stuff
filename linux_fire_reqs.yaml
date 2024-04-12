@@ -52,19 +52,19 @@
       immediate: yes
     become: yes
 
-    - name: Allow SSH in the external zone
-      ansible.posix.firewalld:
-        service: ssh
-        zone: external
-        state: enabled
-        immediate: yes
-        permanent: true
+  - name: Allow SSH in the external zone
+    ansible.posix.firewalld:
+      service: ssh
+      zone: external
+      state: enabled
+      immediate: yes
+      permanent: true
 
-    - name: Set default policy for external zone to drop
-      ansible.posix.firewalld:
-        zone: external
-        state: enabled
-        set_default: yes
-        immediate: yes
-        permanent: true
+  - name: Set default policy for external zone to drop
+    ansible.posix.firewalld:
+      zone: external
+      state: enabled
+      set_default: yes
+      immediate: yes
+      permanent: true
 
