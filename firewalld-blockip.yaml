@@ -4,7 +4,7 @@
   tasks:
     - name: Block specific IP
       ansible.posix.firewalld:
-        rich_rule: 'rule family="ipv4" source address="{{ ip_address }}" drop'
+        rich_rule: 'rule family="ipv4" source address="{{ ip_addr }}" drop'
         permenant: yes
         zone: external
         state: disabled
