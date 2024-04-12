@@ -19,3 +19,9 @@
         state: enabled
         permanent: yes
       loop: "{{ LAN_group }}"
+      
+    - name: Reload firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: reloaded
+      become: yes
