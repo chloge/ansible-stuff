@@ -9,3 +9,9 @@
         state: enabled
         zone: external
       become: yes
+      
+    - name: Reload firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: reloaded
+      become: yes
