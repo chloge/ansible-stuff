@@ -1,1 +1,1 @@
-Test stuff for learning Ansible, doesn't contain much of use right now.
+Simple collections of Ansible playbooks made to utilize firewalld. Intended for use at blue team competitions.
