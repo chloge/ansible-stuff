@@ -3,31 +3,19 @@
   hosts: "{{ host }}"
   become: yes
   tasks:
-    - name: Wipe all existing outbound rules
-      ansible.builtin.iptables:
-        chain: OUTPUT
-        state: absent
-        
-    - name: Allow outbound connections to the Ansible server on port 22
-      ansible.builtin.iptables:
-        chain: OUTPUT
-        destination: "{{ ansible_server }}"
-        protocol: tcp
-        destination_port: 22
-        jump: ACCEPT
-        
-    - name: Deny outbound connections to the LAN group
-      ansible.builtin.iptables:
-        chain: OUTPUT
-        destination: "{{ lan_group }}"
-        jump: DROP
+  
+    - name: Allow outbound traffic to essential IPs in the external zone
+      ansible.posix.firewalld:
+        rich_rule: "rule family='ipv4' source address='{{ item }}' accept"
+        zone: external
+        permanent: yes
+        state: enabled
+      loop: "{{ essential }}"
 
-    - name: Allow connections to any other hosts
-      ansible.builtin.iptables:
-        chain: OUTPUT
-        jump: ACCEPT
-
-    - name: Restart iptables service
-      ansible.builtin.systemd:
-        name: iptables
-        state: restarted
+    - name: Block all outbound traffic to LAN group in the external zone
+      ansible.posix.firewalld:
+        source: "{{ item }}"
+        zone: external
+        state: enabled
+        permanent: yes
+      loop: "{{ LAN_group }}"
