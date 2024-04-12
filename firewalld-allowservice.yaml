@@ -1,12 +1,12 @@
 ---
-- name: Allow service (persistent)
+- name: Modify service (persistent)
   hosts: "{{ host }}"
   tasks:
-    - name: Allow service through external zone
+    - name: Modify whether service is allowed through external zone
       ansible.posix.firewalld:
         service: "{{ service }}"
         permanent: true
-        state: enabled
+        state: "{{ enabled_or_disabled }}"
         zone: external
       become: yes
       
