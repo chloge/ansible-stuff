@@ -5,7 +5,7 @@
     - name: Block specific IP
       ansible.posix.firewalld:
         source: "{{ ip_addr }}"
-        permenent: yes
+        permanent: yes
         zone: external
         state: disabled
       become: yes
