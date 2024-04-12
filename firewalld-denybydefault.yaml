@@ -2,7 +2,6 @@
 - name: Deny by default
   hosts: "{{ host }}"
   tasks:
-
   - name: Allow SSH in the external zone
     ansible.posix.firewalld:
       service: ssh
