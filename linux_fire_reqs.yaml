@@ -43,11 +43,10 @@
     register: active_interface
     become: yes
 
-  - name: Remove active interface from public zone in firewalld
-    ansible.posix.firewalld:
-      zone: public
-      interface: "{{ active_interface.stdout }}"
-      state: disabled
+  - name: Change the default zone to external in firewalld
+    firewalld:
+      default_zone: external
+      state: enabled
       permanent: yes
       immediate: yes
     become: yes
@@ -61,11 +60,11 @@
       immediate: yes
     become: yes
     
-  #- name: Reload firewalld
-    #ansible.builtin.service:
-      #name: firewalld
-      #state: reloaded
-    #become: yes
+  - name: Reload firewalld
+    ansible.builtin.service:
+      name: firewalld
+      state: reloaded
+    become: yes
 
 
 
