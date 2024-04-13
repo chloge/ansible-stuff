@@ -30,7 +30,7 @@
     become: yes
 
   - name: Disable UFW on startup
-    lineinfile:
+    ansible.builtin.lineinfile:
       path: /etc/ufw/ufw.conf
       regexp: '^ENABLED='
       line: 'ENABLED=no'
@@ -44,11 +44,8 @@
     become: yes
 
   - name: Change the default zone to external in firewalld
-    firewalld:
-      default_zone: external
-      state: enabled
-      permanent: yes
-      immediate: yes
+    ansible.buildtin.command: 
+      cmd: firewall-cmd --set-default-zone=external --permanent
     become: yes
     
   - name: Add active interface to external zone in firewalld
