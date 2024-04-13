@@ -49,7 +49,6 @@
       interface: "{{ active_interface.stdout }}"
       state: enabled
       permanent: yes
-      immediate: yes
     become: yes
 
 
