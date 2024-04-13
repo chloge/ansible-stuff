@@ -44,7 +44,7 @@
     become: yes
 
   - name: Change the default zone to external in firewalld
-    ansible.builtin.command: 
+    ansible.builtin.shell: 
       cmd: firewall-cmd --set-default-zone=external
     become: yes
     
@@ -64,7 +64,7 @@
     become: yes
 
   - name: Get active zone, send as debug
-    ansible.builtin.command: 
+    ansible.builtin.shell: 
       cmd: firewall-cmd --get-active-zone
       register: output
     become: yes
