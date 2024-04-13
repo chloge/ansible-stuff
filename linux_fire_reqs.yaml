@@ -62,3 +62,13 @@
       name: firewalld
       state: reloaded
     become: yes
+
+  - name: Get active zone, send as debug
+    ansible.builtin.command: 
+      cmd: firewall-cmd --get-active-zone
+      register: output
+    become: yes
+
+  - name: Get debug info
+    debug:
+      var: output.stdout
