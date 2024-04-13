@@ -16,7 +16,7 @@
       ansible.posix.firewalld:
         source: "{{ LAN_group }}"
         zone: external
-        state: enabled
+        state: disabled
         permanent: yes
       
     - name: Reload firewalld
