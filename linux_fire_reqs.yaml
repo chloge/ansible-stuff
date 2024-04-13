@@ -50,6 +50,12 @@
       state: enabled
       permanent: yes
     become: yes
+    
+  - name: Reload firewalld
+    ansible.builtin.service:
+      name: firewalld
+      state: reloaded
+    become: yes
 
 
 
