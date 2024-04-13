@@ -24,3 +24,13 @@
         name: firewalld
         state: reloaded
       become: yes
+
+    - name: Get active rules, send as debug
+      ansible.builtin.shell: 
+        cmd: firewall-cmd --zone=external --list-all
+      register: output
+      become: yes
+  
+    - name: Get debug info
+      debug:
+        var: output.stdout
