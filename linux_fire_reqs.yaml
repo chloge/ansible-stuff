@@ -66,7 +66,7 @@
   - name: Get active zone, send as debug
     ansible.builtin.shell: 
       cmd: firewall-cmd --get-active-zone
-      register: output
+    register: output
     become: yes
 
   - name: Get debug info
