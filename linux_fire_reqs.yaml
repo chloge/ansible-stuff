@@ -56,7 +56,22 @@
       permanent: yes
       immediate: yes
     become: yes
-    
+
+  - name: Ensure firewalld is installed and running
+    ansible.builtin.service:
+      name: firewalld
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Ensure SSH service is enabled on external zone
+    ansible.posix.firewalld:
+      service: ssh
+      zone: external
+      permanent: yes
+      state: enabled
+    become: yes
+
   - name: Reload firewalld
     ansible.builtin.service:
       name: firewalld
@@ -64,26 +79,31 @@
     become: yes
 
   - name: Get active rules
-    ansible.builtin.shell: 
-      cmd: firewall-cmd --zone=external --list-all
+    ansible.posix.firewalld:
+      zone: external
+      state: list-all
     register: active_rules
     become: yes
 
   - name: Get active zone
-    ansible.builtin.shell: 
-      cmd: firewall-cmd --get-active-zone
+    ansible.posix.firewalld:
+      state: get-active-zone
     register: active_zone
     become: yes
-    
+
   - name: Get default policy for the external zone
-    ansible.builtin.shell: 
-      cmd: firewall-cmd --zone=external --query-masquerade
+    ansible.posix.firewalld:
+      zone: external
+      state: query-masquerade
     register: default_policy
     become: yes
-      
-  - name: Debug active rules and zone
+
+  - name: Debug active rules, active zone, and default policy
     ansible.builtin.debug:
       msg:
         - "{{ default_policy.stdout }}"
         - "{{ active_rules.stdout }}"
         - "{{ active_zone.stdout }}"
+
+
+
