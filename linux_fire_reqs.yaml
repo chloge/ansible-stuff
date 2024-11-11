@@ -6,23 +6,20 @@
   - name: Update apt packages on Debian-based systems
     ansible.builtin.apt:
       update_cache: yes
-      upgrade: dist
     become: yes
     when: 
       - ansible_pkg_mgr == "apt"
 
   - name: Update yum packages on Red Hat-based systems
     ansible.builtin.yum:
-      name: "*"
-      state: latest
+      update_cache: yes
     become: yes
     when: 
       - ansible_pkg_mgr == "yum"
 
   - name: Update dnf packages on Red Hat-based systems
     ansible.builtin.dnf:
-      name: "*"
-      state: latest
+      update_cache: yes
     become: yes
     when: 
       - ansible_pkg_mgr == "dnf"
