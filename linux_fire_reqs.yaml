@@ -90,16 +90,9 @@
     register: active_zone
     become: yes
 
-  - name: Get default policy for the external zone 
-    ansible.builtin.shell: 
-      cmd: firewall-cmd --zone=external --get-target
-    register: default_policy 
-    become: yes
-
   - name: Debug active rules, active zone, and default policy
     ansible.builtin.debug:
       msg:
-        - "{{ default_policy.stdout }}"
         - "{{ active_rules.stdout }}"
         - "{{ active_zone.stdout }}"
 
