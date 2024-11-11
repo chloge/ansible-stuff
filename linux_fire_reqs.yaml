@@ -93,6 +93,32 @@
       state: enabled
     become: yes
 
+  - name: Set the list of ports from the environment variable
+    set_fact:
+      extra_ports: "{{ lookup('env', 'EXTRA_PORTS').split(',') if lookup('env', 'EXTRA_PORTS') else [] }}"
+
+  - name: Open additional ports
+    ansible.posix.firewalld:
+      port: "{{ item }}"
+      permanent: yes
+      state: enabled
+    become: yes
+    loop: "{{ extra_ports }}"
+    when: extra_ports | length > 0
+
+  - name: Set the list of services from the environment variable
+    set_fact:
+      extra_services: "{{ lookup('env', 'EXTRA_SERVICES').split(',') if lookup('env', 'EXTRA_SERVICES') else [] }}"
+
+  - name: Open additional services
+    ansible.posix.firewalld:
+      service: "{{ item }}"
+      permanent: yes
+      state: enabled
+    become: yes
+    loop: "{{ extra_services }}"
+    when: extra_services | length > 0
+
   - name: Reload firewalld
     ansible.builtin.service:
       name: firewalld
