@@ -3,44 +3,29 @@
   hosts: "{{ host }}"
   tasks:
 
-  - name: Determine package manager
-    ansible.builtin.raw: |
-      if [ -x "$(command -v apt)" ]; then
-        echo apt
-      elif [ -x "$(command -v yum)" ]; then
-        echo yum
-      elif [ -x "$(command -v dnf)" ]; then
-        echo dnf
-      else
-        echo unknown
-      fi
-    register: package_manager
-
   - name: Update apt packages on Debian-based systems
     ansible.builtin.apt:
       update_cache: yes
       upgrade: dist
     become: yes
-    when: "{{ package_manager.stdout }}" == "apt"
+    when: 
+      - ansible_pkg_mgr == "apt"
 
   - name: Update yum packages on Red Hat-based systems
     ansible.builtin.yum:
       name: "*"
       state: latest
     become: yes
-    when: "{{ package_manager.stdout }}" == "yum"
+    when: 
+      - ansible_pkg_mgr == "yum"
 
   - name: Update dnf packages on Red Hat-based systems
     ansible.builtin.dnf:
       name: "*"
       state: latest
     become: yes
-    when: "{{ package_manager.stdout }}" == "dnf"
-
-  - name: Fail if unknown package manager
-    ansible.builtin.fail:
-      msg: "Unsupported package manager found. Cannot update packages."
-    when: "{{ package_manager.stdout }}" == "unknown"
+    when: 
+      - ansible_pkg_mgr == "dnf"
     
   - name: Install firewalld
     ansible.builtin.package:
