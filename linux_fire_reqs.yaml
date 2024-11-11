@@ -21,26 +21,26 @@
       update_cache: yes
       upgrade: dist
     become: yes
-    when: package_manager.stdout == "apt"
+    when: "{{ package_manager.stdout }}" == "apt"
 
   - name: Update yum packages on Red Hat-based systems
     ansible.builtin.yum:
       name: "*"
       state: latest
     become: yes
-    when: package_manager.stdout == "yum"
+    when: "{{ package_manager.stdout }}" == "yum"
 
   - name: Update dnf packages on Red Hat-based systems
     ansible.builtin.dnf:
       name: "*"
       state: latest
     become: yes
-    when: package_manager.stdout == "dnf"
+    when: "{{ package_manager.stdout }}" == "dnf"
 
   - name: Fail if unknown package manager
     ansible.builtin.fail:
       msg: "Unsupported package manager found. Cannot update packages."
-    when: package_manager.stdout == "unknown"
+    when: "{{ package_manager.stdout }}" == "unknown"
     
   - name: Install firewalld
     ansible.builtin.package:
