@@ -63,22 +63,27 @@
       state: reloaded
     become: yes
 
-  - name: Get active rules, send as debug
+  - name: Get active rules
     ansible.builtin.shell: 
       cmd: firewall-cmd --zone=external --list-all
-    register: output
-    become: yes
-    
-  - name: Get debug info
-    debug:
-      var: output.stdout
-      
-  - name: Get active zone, send as debug
-    ansible.builtin.shell: 
-      cmd: firewall-cmd --get-active-zone
-    register: output
+    register: active_rules
     become: yes
 
-  - name: Get debug info
-    debug:
-      var: output.stdout
+  - name: Get active zone
+    ansible.builtin.shell: 
+      cmd: firewall-cmd --get-active-zone
+    register: active_zone
+    become: yes
+    
+  - name: Get default policy for the external zone
+    ansible.builtin.shell: 
+      cmd: firewall-cmd --zone=external --query-masquerade
+    register: default_policy
+    become: yes
+      
+  - name: Debug active rules and zone
+    ansible.builtin.debug:
+      msg:
+        - "{{ default_policy.stdout }}"
+        - "{{ active_rules.stdout }}"
+        - "{{ active_zone.stdout }}"
