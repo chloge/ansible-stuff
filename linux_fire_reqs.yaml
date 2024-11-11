@@ -79,15 +79,14 @@
     become: yes
 
   - name: Get active rules
-    ansible.posix.firewalld:
-      zone: external
-      state: list-all
+    ansible.builtin.shell:
+      cmd: firewall-cmd --zone=external --list-all
     register: active_rules
     become: yes
 
   - name: Get active zone
-    ansible.posix.firewalld:
-      state: get-active-zone
+    ansible.builtin.shell:
+      cmd: firewall-cmd --get-active-zone
     register: active_zone
     become: yes
 
