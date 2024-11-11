@@ -119,6 +119,14 @@
     loop: "{{ extra_services }}"
     when: extra_services | length > 0
 
+  - name: Set default policy for external zone to drop
+    ansible.posix.firewalld:
+      zone: external
+      state: enabled
+      target: DROP
+      permanent: true
+    become: yes
+
   - name: Reload firewalld
     ansible.builtin.service:
       name: firewalld
