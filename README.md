@@ -2,6 +2,7 @@ Simple collections of Ansible playbooks made to utilize firewalld. Intended for 
 
 TODO:
 - Playbook for firewall modifications when already set up
+  - ~~Automatic provisioning of firewalld~~
   - ~~Block IP~~
   - ~~Open/close port~~
   - ~~Allow/disallow service~~
