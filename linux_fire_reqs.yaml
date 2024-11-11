@@ -92,7 +92,7 @@
 
   - name: Get default policy for the external zone 
     ansible.builtin.shell: 
-      cmd: firewall-cmd --zone=external --query-masquerade 
+      cmd: firewall-cmd --zone=external --get-target
     register: default_policy 
     become: yes
 
