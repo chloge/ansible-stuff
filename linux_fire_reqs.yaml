@@ -68,6 +68,10 @@
       cmd: firewall-cmd --zone=external --list-all
     register: output
     become: yes
+    
+  - name: Get debug info
+    debug:
+      var: output.stdout
       
   - name: Get active zone, send as debug
     ansible.builtin.shell: 
