@@ -2,9 +2,9 @@ Simple collections of Ansible playbooks made to utilize firewalld. Intended for 
 
 TODO:
 - Playbook for firewall modifications when already set up
-  - Block IP
-  - Open/close port
-  - Allow/disallow service
+  - ~~Block IP~~
+  - ~~Open/close port~~
+  - ~~Allow/disallow service~~
   - FW config backup system
 - Backup system
   - Minimal, Mid, and Maximal options for backups
