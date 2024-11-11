@@ -63,6 +63,12 @@
       state: reloaded
     become: yes
 
+  - name: Get active rules, send as debug
+    ansible.builtin.shell: 
+      cmd: firewall-cmd --zone=external --list-all
+    register: output
+    become: yes
+      
   - name: Get active zone, send as debug
     ansible.builtin.shell: 
       cmd: firewall-cmd --get-active-zone
