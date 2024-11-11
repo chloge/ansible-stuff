@@ -39,7 +39,7 @@
     ansible.posix.firewalld:
       port: "{{ item }}"
       permanent: yes
-      state: "{{ mode }}"
+      state: "{{ firewalld_state }}"
     become: yes
     loop: "{{ extra_ports }}"
     when: extra_ports | length > 0
@@ -48,7 +48,7 @@
     ansible.posix.firewalld:
       service: "{{ item }}"
       permanent: yes
-      state: "{{ mode }}"
+      state: "{{ firewalld_state }}"
     become: yes
     loop: "{{ extra_services }}"
     when: extra_services | length > 0
