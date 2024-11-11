@@ -31,6 +31,10 @@
       msg: "The 'mode' variable must be either 'add' or 'remove'. Invalid value: {{ mode }}"
     when: mode not in ["add", "remove"]
 
+  - name: Translate mode to firewalld state 
+    set_fact: 
+      firewalld_state: "{{ 'enabled' if mode == 'add' else 'disabled' }}"
+
   - name: Modify ports
     ansible.posix.firewalld:
       port: "{{ item }}"
