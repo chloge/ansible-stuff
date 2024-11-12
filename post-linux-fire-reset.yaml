@@ -24,7 +24,7 @@
       ansible.posix.firewalld:
         zone: external
         source: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ sources.stdout_lines }}"
 
@@ -36,7 +36,7 @@
       ansible.posix.firewalld:
         zone: external
         service: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ services.stdout_lines }}"
 
@@ -48,7 +48,7 @@
       ansible.posix.firewalld:
         zone: external
         port: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ ports.stdout_lines }}"
 
@@ -60,7 +60,7 @@
       ansible.posix.firewalld:
         zone: external
         protocol: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ protocols.stdout_lines }}"
 
@@ -72,7 +72,7 @@
       ansible.posix.firewalld:
         zone: external
         forward_port: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ forward_ports.stdout_lines }}"
 
@@ -84,7 +84,7 @@
       ansible.posix.firewalld:
         zone: external
         icmp_block: "{{ item }}"
-        state: absent
+        state: disabled
         permanent: yes
       loop: "{{ icmp_blocks.stdout_lines }}"
 
