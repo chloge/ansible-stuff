@@ -4,7 +4,7 @@
   become: yes
   tasks:
     - name: Reset all sources in external zone
-      firewalld:
+      ansible.posix.firewalld:
         zone: external
         source: "{{ item }}"
         state: absent
