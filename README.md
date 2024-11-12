@@ -6,7 +6,7 @@ TODO:
   - ~~Block IP~~
   - ~~Open/close port~~
   - ~~Allow/disallow service~~
-  - Fix quarantine system
+  - ~~Fix quarantine system~~
   - FW config backup system
 - Backup system
   - Minimal, Mid, and Maximal options for backups
