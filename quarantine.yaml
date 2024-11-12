@@ -1,9 +1,8 @@
 ---
-- name: Quarantine
+- name: Setup/reverse quarantine
   hosts: "{{ host }}"
   become: yes
   tasks:
-  
     - name: Allow outbound traffic to essential IPs in the external zone
       ansible.posix.firewalld:
         rich_rule: "rule family='ipv4' source address='{{ item }}' accept"
@@ -12,11 +11,29 @@
         state: enabled
       loop: "{{ essential }}"
 
+    - name: Set the mode (add or remove) if provided
+      set_fact:
+        mode: "{{ lookup('env', 'mode') if lookup('env', 'mode') else '' }}"
+  
+    - name: Fail if mode is not provided
+      fail:
+        msg: "The 'mode' variable toggles the quarantine, and must be set to 'on' or 'off'. Please provide it and rerun the playbook."
+      when: mode == ""
+  
+    - name: Fail if mode is invalid
+      fail:
+        msg: "The 'mode' variable toggles the quarantine, and must be either 'on' or 'off'. Invalid value: {{ mode }}"
+      when: mode not in ["on", "off"]
+  
+    - name: Translate mode to firewalld state 
+      set_fact: 
+        firewalld_state: "{{ 'enabled' if mode == 'on' else 'disabled' }}"
+        
     - name: Block all outbound traffic to LAN group in the external zone
       ansible.posix.firewalld:
         source: "{{ lan_group }}"
         zone: external
-        state: disabled
+        state: "{{ firewalld_state }}"
         permanent: yes
       
     - name: Reload firewalld
