@@ -11,7 +11,7 @@
       ansible.posix.firewalld:
         zone: external
         rich_rule: "{{ item }}"
-        state: absent
+        state: disabled
         immediate: yes
       loop: "{{ rich_rules.stdout_lines }}"
 
