@@ -12,6 +12,7 @@
         zone: external
         rich_rule: "{{ item }}"
         state: disabled
+        permanent: yes
         immediate: yes
       loop: "{{ rich_rules.stdout_lines }}"
 
@@ -24,6 +25,7 @@
         zone: external
         source: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ sources.stdout_lines }}"
 
     - name: Reset all services in external zone
@@ -35,6 +37,7 @@
         zone: external
         service: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ services.stdout_lines }}"
 
     - name: Reset all ports in external zone
@@ -46,6 +49,7 @@
         zone: external
         port: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ ports.stdout_lines }}"
 
     - name: Reset all protocols in external zone
@@ -57,6 +61,7 @@
         zone: external
         protocol: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ protocols.stdout_lines }}"
 
     - name: Reset all forward ports in external zone
@@ -68,6 +73,7 @@
         zone: external
         forward_port: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ forward_ports.stdout_lines }}"
 
     - name: Reset all ICMP blocks in external zone
@@ -79,6 +85,7 @@
         zone: external
         icmp_block: "{{ item }}"
         state: absent
+        permanent: yes
       loop: "{{ icmp_blocks.stdout_lines }}"
 
     - name: Ensure SSH is enabled in external zone to prevent lockout 
