@@ -14,7 +14,7 @@
 
     - name: Block all outbound traffic to LAN group in the external zone
       ansible.posix.firewalld:
-        source: "{{ LAN_group }}"
+        source: "{{ lan_group }}"
         zone: external
         state: disabled
         permanent: yes
