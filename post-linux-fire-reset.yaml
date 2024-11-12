@@ -8,12 +8,7 @@
       register: rich_rules
 
     - name: Remove all rich rules in external zone
-      ansible.posix.firewalld:
-        zone: external
-        rich_rule: "{{ item }}"
-        state: disabled
-        permanent: yes
-        immediate: yes
+      command: firewall-cmd --zone=external --permanent --remove-rich-rule="{{ item }}"
       loop: "{{ rich_rules.stdout_lines }}"
 
     - name: Reset all sources in external zone
