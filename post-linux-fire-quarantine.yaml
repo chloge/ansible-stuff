@@ -16,6 +16,14 @@
         state: enabled
       loop: "{{ essential }}"
 
+    - name: Allow inbound traffic from essential IPs in the external zone
+      ansible.posix.firewalld:
+        rich_rule: "rule family='ipv4' destination address='{{ item }}' accept"
+        zone: external
+        permanent: yes
+        state: enabled
+      loop: "{{ essential }}"
+      
     - name: Set the mode (add or remove) if provided
       set_fact:
         mode: "{{ lookup('env', 'mode') if lookup('env', 'mode') else '' }}"
