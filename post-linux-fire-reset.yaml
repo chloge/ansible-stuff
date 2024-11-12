@@ -3,54 +3,83 @@
   hosts: "{{ host }}"
   become: yes
   tasks:
-    - name: Reset all sources in external zone
-      ansible.posix.firewalld:
-        zone: external
-        source: "{{ item }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', sources=True) }}"
+    - name: Get all rich rules in external zone
+      command: firewall-cmd --zone=external --list-rich-rules
+      register: rich_rules
 
-    - name: Reset all services in external zone
-      ansible.posix.firewalld:
-        zone: external
-        service: "{{ item }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', services=True) }}"
-
-    - name: Reset all ports in external zone
-      ansible.posix.firewalld:
-        zone: external
-        port: "{{ item.port }}/{{ item.protocol }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', ports=True) }}"
-
-    - name: Reset all protocols in external zone
-      ansible.posix.firewalld:
-        zone: external
-        protocol: "{{ item }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', protocols=True) }}"
-
-    - name: Reset all forward ports in external zone
-      ansible.posix.firewalld:
-        zone: external
-        forward_port: "{{ item }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', forward_ports=True) }}"
-
-    - name: Reset all ICMP blocks in external zone
-      ansible.posix.firewalld:
-        zone: external
-        icmp_block: "{{ item }}"
-        state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', icmp_blocks=True) }}"
-
-    - name: Reset all rich rules in external zone
+    - name: Remove all rich rules in external zone
       ansible.posix.firewalld:
         zone: external
         rich_rule: "{{ item }}"
         state: absent
-      loop: "{{ lookup('community.general.firewalld', zone='external', rich_rules=True) }}"
+        immediate: yes
+      loop: "{{ rich_rules.stdout_lines }}"
+
+    - name: Reset all sources in external zone
+      command: firewall-cmd --zone=external --list-sources
+      register: sources
+
+    - name: Remove all sources in external zone
+      ansible.posix.firewalld:
+        zone: external
+        source: "{{ item }}"
+        state: absent
+      loop: "{{ sources.stdout_lines }}"
+
+    - name: Reset all services in external zone
+      command: firewall-cmd --zone=external --list-services
+      register: services
+
+    - name: Remove all services in external zone
+      ansible.posix.firewalld:
+        zone: external
+        service: "{{ item }}"
+        state: absent
+      loop: "{{ services.stdout_lines }}"
+
+    - name: Reset all ports in external zone
+      command: firewall-cmd --zone=external --list-ports
+      register: ports
+
+    - name: Remove all ports in external zone
+      ansible.posix.firewalld:
+        zone: external
+        port: "{{ item }}"
+        state: absent
+      loop: "{{ ports.stdout_lines }}"
+
+    - name: Reset all protocols in external zone
+      command: firewall-cmd --zone=external --list-protocols
+      register: protocols
+
+    - name: Remove all protocols in external zone
+      ansible.posix.firewalld:
+        zone: external
+        protocol: "{{ item }}"
+        state: absent
+      loop: "{{ protocols.stdout_lines }}"
+
+    - name: Reset all forward ports in external zone
+      command: firewall-cmd --zone=external --list-forward-ports
+      register: forward_ports
+
+    - name: Remove all forward ports in external zone
+      ansible.posix.firewalld:
+        zone: external
+        forward_port: "{{ item }}"
+        state: absent
+      loop: "{{ forward_ports.stdout_lines }}"
+
+    - name: Reset all ICMP blocks in external zone
+      command: firewall-cmd --zone=external --list-icmp-blocks
+      register: icmp_blocks
+
+    - name: Remove all ICMP blocks in external zone
+      ansible.posix.firewalld:
+        zone: external
+        icmp_block: "{{ item }}"
+        state: absent
+      loop: "{{ icmp_blocks.stdout_lines }}"
   
     - name: Reload firewalld
       ansible.builtin.service:
@@ -62,7 +91,6 @@
         cmd: firewall-cmd --zone=external --list-all
       register: active_rules
 
-  
     - name: Get active zone
       ansible.builtin.shell:
         cmd: firewall-cmd --get-active-zone
