@@ -80,7 +80,15 @@
         icmp_block: "{{ item }}"
         state: absent
       loop: "{{ icmp_blocks.stdout_lines }}"
-  
+
+   - name: Ensure SSH is enabled in external zone to prevent lockout 
+     ansible.posix.firewalld: 
+       zone: external 
+       service: ssh 
+       state: enabled 
+       permanent: yes 
+       immediate: yes
+   
     - name: Reload firewalld
       ansible.builtin.service:
         name: firewalld
