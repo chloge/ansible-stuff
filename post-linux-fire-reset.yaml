@@ -51,18 +51,22 @@
         rich_rule: "{{ item }}"
         state: absent
       loop: "{{ lookup('community.general.firewalld', zone='external', rich_rules=True) }}"
-      
+  
+    - name: Reload firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: reloaded
+    
     - name: Get active rules
       ansible.builtin.shell:
         cmd: firewall-cmd --zone=external --list-all
       register: active_rules
-      become: yes
+
   
     - name: Get active zone
       ansible.builtin.shell:
         cmd: firewall-cmd --get-active-zone
       register: active_zone
-      become: yes
   
     - name: Debug active rules, active zone, and default policy
       ansible.builtin.debug:
