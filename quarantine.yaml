@@ -3,6 +3,11 @@
   hosts: "{{ host }}"
   become: yes
   tasks:
+    - name: Fail if essential list is empty
+      fail:
+        msg: "List of essential IP addresses is empty, failing..."
+      when: essential | length == 0
+
     - name: Allow outbound traffic to essential IPs in the external zone
       ansible.posix.firewalld:
         rich_rule: "rule family='ipv4' source address='{{ item }}' accept"
@@ -29,13 +34,19 @@
       set_fact: 
         firewalld_state: "{{ 'enabled' if mode == 'on' else 'disabled' }}"
         
-    - name: Block all outbound traffic to LAN group in the external zone
-      ansible.posix.firewalld:
-        source: "{{ lan_group }}"
-        zone: external
-        state: "{{ firewalld_state }}"
+    - name: Fail if no subnets are provided
+      fail:
+        msg: "The lan subnets list cannot be empty."
+      when: lan_groups | length == 0
+
+    - name: Block outbound traffic to specified subnets
+      firewalld:
+        rich_rule: 'rule family="ipv4" destination address="{{ item }}" reject'
         permanent: yes
-      
+        state: "{{ firewalld_state }}"
+        immediate: yes
+      loop: "{{ lan_groups }}"
+
     - name: Reload firewalld
       ansible.builtin.service:
         name: firewalld
