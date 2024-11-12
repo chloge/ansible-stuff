@@ -7,9 +7,9 @@ TODO:
   - ~~Open/close port~~
   - ~~Allow/disallow service~~
   - ~~Fix quarantine system~~
-  - FW config backup system
 - Backup system
   - Minimal, Mid, and Maximal options for backups
+  - FW config backup system
   - Get hashes (for restore)
   - Centralized backup option
   - Option to use distributed redundancy across non-backup machines
