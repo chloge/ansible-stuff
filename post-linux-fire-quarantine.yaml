@@ -10,7 +10,7 @@
 
     - name: Allow outbound traffic to essential IPs in the external zone
       ansible.posix.firewalld:
-        rich_rule: "rule family='ipv4' source address='{{ item }}' accept"
+        rich_rule: "rule priority=-10000 family='ipv4' source address='{{ item }}' accept"
         zone: external
         permanent: yes
         state: enabled
