@@ -59,7 +59,7 @@
       register: realm_discover
 
     - name: Join the machine to the domain
-      command: realm join --user=admin {{ domain }}
+      command: realm join --user={{ domain_ser }} {{ domain }}
       become: yes
       when: "'configured' in realm_discover.stdout"
 
