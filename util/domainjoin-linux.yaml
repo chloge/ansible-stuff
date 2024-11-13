@@ -1,10 +1,9 @@
 ---
 - name: Join Linux machine to a domain
-  hosts: all
+  hosts: "{{ host }}"
   become: yes
-  vars:
-    domain: "{{ domain }}"
-    domain_user: "{{ domain_user }}"
+  vars_files:
+    - vault.yml  # Include the encrypted Vault file
   tasks:
     - name: Install required packages using yum
       when: ansible_pkg_mgr == 'yum'
@@ -48,6 +47,12 @@
           - krb5-workstation
         state: present
 
+    - name: Ensure firewalld is running and enabled
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+
     - name: Ensure realmd service is running
       service:
         name: realmd
@@ -59,8 +64,10 @@
       register: realm_discover
 
     - name: Join the machine to the domain
-      command: realm join --user={{ domain_user }} {{ domain }}
-      become: yes
+      expect:
+        command: realm join --user={{ domain_user }} {{ domain }}
+        responses:
+          Password for {{ domain_user }}: "{{ domain_password }}"
       when: "'configured' in realm_discover.stdout"
 
     - name: Configure SSSD to not use FQDNs
@@ -78,7 +85,6 @@
     - name: Test domain user and send debug information
       command: id {{ domain_user }}
       register: user_info
-      become: yes
 
     - name: Debug output
       debug:
