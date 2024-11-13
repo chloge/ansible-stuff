@@ -1,6 +1,7 @@
 ---
 - name: Join Linux machine to a domain
   hosts: all
+  become: yes
   vars:
     domain: "{{ domain }}"
     domain_user: "{{ domain_user }}"
