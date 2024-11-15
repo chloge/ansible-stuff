@@ -54,12 +54,24 @@
       command: filebeat modules enable system
       notify: Restart Filebeat
 
+    - name: Configure system module
+      copy:
+        content: |
+          - module: system
+            syslog:
+              enabled: true
+            auth:
+              enabled: true
+        dest: /etc/filebeat/modules.d/system.yml
+        mode: '0644'
+      notify: Restart Filebeat
+
     - name: Configure Filebeat
       copy:
         content: |
           filebeat.config.modules:
-            path: ${path.config}/modules.d/*.yml
-            reload.enabled: false
+            path: /etc/filebeat/modules.d/*.yml
+            reload.enabled: true
 
           output.logstash:
             hosts: ["192.168.24.5:5044"]
