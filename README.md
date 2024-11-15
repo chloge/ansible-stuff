@@ -16,5 +16,9 @@ TODO:
 - Restore system
   - Anti-tamper using hashes
   - System to prevent restoring to the incorrect machine
+- Logging system
+  - ~~Automatically deploy Filebeat~~
+  - Automatically secure Filebeat -> Logstash/Elasticsearch connection with SSL
+  - Automatically deploy Elastic Agent
 - Password change system
   - Passwords prebaked into vaults
