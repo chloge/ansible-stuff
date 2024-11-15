@@ -91,7 +91,7 @@
   hosts: "{{ host }}"
   become: yes
   tasks:
-    - name: Wait for 10 seconds
+    - name: Wait for 10 seconds, this is done to give Filebeat time to come online
       pause:
         seconds: 10
 
@@ -99,6 +99,6 @@
       command: systemctl status filebeat
       register: filebeat_status
 
-    - name: Debug Filebeat status
+    - name: Ship Filebeat status
       debug:
         var: filebeat_status.stdout
