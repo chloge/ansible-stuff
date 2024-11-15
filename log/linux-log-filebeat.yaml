@@ -74,7 +74,7 @@
             reload.enabled: true
 
           output.logstash:
-            hosts: ["{{ filebeat_server }}"]
+            hosts: ["{{ logstash_server }}:5044"]
 
           logging.level: info
         dest: /etc/filebeat/filebeat.yml
