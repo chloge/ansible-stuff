@@ -11,9 +11,9 @@
 
     - name: Add Elasticsearch repository on Red Hat-based systems
       yum_repository:
-        name: elastic-7.x
-        description: "Elastic repository for 7.x packages"
-        baseurl: https://artifacts.elastic.co/packages/7.x/yum
+        name: elastic-8.x
+        description: "Elastic repository for 8.x packages"
+        baseurl: https://artifacts.elastic.co/packages/8.x/yum
         gpgcheck: yes
         gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
         enabled: yes
@@ -27,7 +27,7 @@
 
     - name: Add Elasticsearch repository on Debian-based systems
       apt_repository:
-        repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+        repo: "deb https://artifacts.elastic.co/packages/8.x/apt stable main"
         state: present
       when: ansible_os_family == 'Debian'
 
@@ -79,6 +79,10 @@
   hosts: "{{ host }}"
   become: yes
   tasks:
+    - name: Wait for 10 seconds
+      pause:
+        seconds: 10
+
     - name: Get Filebeat status
       command: systemctl status filebeat
       register: filebeat_status
