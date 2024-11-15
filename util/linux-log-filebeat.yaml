@@ -1,0 +1,57 @@
+---
+- name: Install and configure Filebeat
+  hosts: "{{ host }}"
+  become: yes
+  tasks:
+    - name: Ensure Filebeat is installed on Red Hat-based systems
+      yum:
+        name: filebeat
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Ensure Filebeat is installed on Debian-based systems
+      apt:
+        name: filebeat
+        state: present
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Ensure Filebeat is enabled and started
+      service:
+        name: filebeat
+        state: started
+        enabled: yes
+
+    - name: Configure Filebeat
+      copy:
+        content: |
+          filebeat.inputs:
+          - type: log
+            paths:
+              - "{{ '/var/log/secure' if ansible_os_family == 'RedHat' else '/var/log/auth.log' }}"
+
+          filebeat.config.modules:
+            path: ${path.config}/modules.d/*.yml
+            reload.enabled: false
+
+          output.logstash:
+            hosts: ["192.168.24.5:5044"]
+
+          setup.kibana:
+
+          logging.level: info
+
+          filebeat.modules:
+          - module: system
+            auth:
+              enabled: true
+              var.paths: "{{ ['/var/log/secure'] if ansible_os_family == 'RedHat' else ['/var/log/auth.log'] }}"
+        dest: /etc/filebeat/filebeat.yml
+        mode: '0644'
+      notify: Restart Filebeat
+
+  handlers:
+    - name: Restart Filebeat
+      service:
+        name: filebeat
+        state: restarted
