@@ -1,4 +1,4 @@
-Simple collections of Ansible playbooks made to utilize firewalld. Intended for use at blue team competitions.
+Simple collections of Ansible playbooks made to utilize a suite of common Linux utilities. Originally made for use at blue team competitions.
 
 TODO:
 - Playbook for firewall modifications when already set up
