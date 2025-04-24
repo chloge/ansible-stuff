@@ -1,0 +1,72 @@
+---
+- name: Install Elasticsearch on AlmaLinux
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Import Elasticsearch GPG key
+      rpm_key:
+        state: present
+        key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+    - name: Add Elasticsearch repository
+      copy:
+        dest: /etc/yum.repos.d/elasticsearch.repo
+        content: |
+          [elasticsearch]
+          name=Elasticsearch repository for 8.x packages
+          baseurl=https://artifacts.elastic.co/packages/8.x/yum
+          gpgcheck=1
+          gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+          enabled=1
+          autorefresh=1
+          type=rpm-md
+
+    - name: Update DNF repositories
+      dnf:
+      name: "*"
+      state: latest
+      update_cache: true
+
+    - name: Install Elasticsearch
+      dnf:
+      name: elasticsearch
+      state: present
+
+    - name: Enable Elasticsearch service
+      systemd:
+      name: elasticsearch
+      enabled: true
+
+    - name: Start Elasticsearch service
+      systemd:
+      name: elasticsearch
+      state: started
+
+    - name: Wait for Elasticsearch to start
+      uri:
+      url: http://localhost:9200
+      method: GET
+      status_code: 200
+      register: elasticsearch_status
+      retries: 10
+      delay: 5
+      until: elasticsearch_status is succeeded
+
+    - name: Retrieve initial enrollment token
+      shell: "/usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s node"
+      register: enrollment_token
+      changed_when: false
+
+    - name: Debug enrollment token
+      debug:
+      msg: "Initial enrollment token: {{ enrollment_token.stdout }}"
+
+    - name: Confirm Elasticsearch service is running
+      systemd:
+      name: elasticsearch
+      state: started
+      register: service_status
+
+    - name: Debug service status
+      debug:
+      msg: "Elasticsearch service is running: {{ service_status.status == 'running' }}"

@@ -1,8 +1,0 @@
----
-- name: Test Ansible connectivity and debug information
-  hosts: linux
-  gather_facts: yes
-  tasks:
-    - name: Print debug information
-      debug:
-        msg: "Ansible is successfully connected to {{ inventory_hostname }} running {{ ansible_distribution }} {{ ansible_distribution_version }}"
