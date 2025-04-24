@@ -1,6 +1,6 @@
 ---
 - name: Install Elasticsearch on AlmaLinux
-  hosts: localhost
+  hosts: linux
   become: true
   tasks:
     - name: Import Elasticsearch GPG key
@@ -23,30 +23,28 @@
 
     - name: Update DNF repositories
       dnf:
-      name: "*"
-      state: latest
-      update_cache: true
+        update_cache: true
 
     - name: Install Elasticsearch
       dnf:
-      name: elasticsearch
-      state: present
+        name: elasticsearch
+        state: present
 
     - name: Enable Elasticsearch service
       systemd:
-      name: elasticsearch
-      enabled: true
+        name: elasticsearch
+        enabled: true
 
     - name: Start Elasticsearch service
       systemd:
-      name: elasticsearch
-      state: started
+        name: elasticsearch
+        state: started
 
     - name: Wait for Elasticsearch to start
       uri:
-      url: http://localhost:9200
-      method: GET
-      status_code: 200
+        url: http://localhost:9200
+        method: GET
+        status_code: 200
       register: elasticsearch_status
       retries: 10
       delay: 5
@@ -59,14 +57,14 @@
 
     - name: Debug enrollment token
       debug:
-      msg: "Initial enrollment token: {{ enrollment_token.stdout }}"
+        msg: "Initial enrollment token: {{ enrollment_token.stdout }}"
 
     - name: Confirm Elasticsearch service is running
       systemd:
-      name: elasticsearch
-      state: started
+        name: elasticsearch
+        state: started
       register: service_status
 
     - name: Debug service status
       debug:
-      msg: "Elasticsearch service is running: {{ service_status.status == 'running' }}"
+        msg: "Elasticsearch service is running: {{ service_status.status == 'running' }}"
