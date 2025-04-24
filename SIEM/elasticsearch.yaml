@@ -2,7 +2,12 @@
 - name: Install Elasticsearch on AlmaLinux
   hosts: linux
   become: true
+  gather_facts: true
   tasks:
+    - name: Print debug information
+      debug:
+        msg: "Ansible is successfully connected to {{ inventory_hostname }} running {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
     - name: Import Elasticsearch GPG key
       rpm_key:
         state: present
