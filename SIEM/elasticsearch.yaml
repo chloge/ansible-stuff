@@ -23,14 +23,14 @@
         dest: /etc/yum.repos.d/elasticsearch.repo
       become: yes
 
-    - name: Update DNF repositories
+    - name: Update YUM repositories
       become: true
-      dnf:
+      yum:
         update_cache: true
 
     - name: Install Elasticsearch
       become: true
-      dnf:
+      yum:
         name: elasticsearch
         state: present
 
