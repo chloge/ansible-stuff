@@ -2,11 +2,6 @@
 - name: Install Elasticsearch on AlmaLinux
   hosts: linux
   tasks:
-    - name: Ensure python-simplejson is installed
-      become: true
-      dnf:
-        name: python-simplejson
-        state: present
 
     - name: Import Elasticsearch GPG key
       become: true
