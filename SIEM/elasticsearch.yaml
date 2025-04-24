@@ -1,19 +1,15 @@
 ---
 - name: Install Elasticsearch on AlmaLinux
   hosts: linux
-  become: true
-  gather_facts: true
   tasks:
-    - name: Print debug information
-      debug:
-        msg: "Ansible is successfully connected to {{ inventory_hostname }} running {{ ansible_distribution }} {{ ansible_distribution_version }}"
-
     - name: Import Elasticsearch GPG key
+      become: true
       rpm_key:
         state: present
         key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
     - name: Add Elasticsearch repository
+      become: true
       copy:
         dest: /etc/yum.repos.d/elasticsearch.repo
         content: |
@@ -27,20 +23,24 @@
           type=rpm-md
 
     - name: Update DNF repositories
+      become: true
       dnf:
         update_cache: true
 
     - name: Install Elasticsearch
+      become: true
       dnf:
         name: elasticsearch
         state: present
 
     - name: Enable Elasticsearch service
+      become: true
       systemd:
         name: elasticsearch
         enabled: true
 
     - name: Start Elasticsearch service
+      become: true
       systemd:
         name: elasticsearch
         state: started
@@ -56,6 +56,7 @@
       until: elasticsearch_status is succeeded
 
     - name: Retrieve initial enrollment token
+      become: true
       shell: "/usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s node"
       register: enrollment_token
       changed_when: false
@@ -65,6 +66,7 @@
         msg: "Initial enrollment token: {{ enrollment_token.stdout }}"
 
     - name: Confirm Elasticsearch service is running
+      become: true
       systemd:
         name: elasticsearch
         state: started
